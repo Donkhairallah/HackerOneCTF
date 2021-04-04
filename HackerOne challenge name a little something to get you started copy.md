@@ -1,0 +1,8 @@
+# HackerOneCTF
+
+Challenge name: OSU CTF
+
+In this challenge we have a login page, lets try to attack it with sql injection, in the username enter admin' OR '1'='1' --. The first single quote is to close the input for the username and the last -- is to comment everything left in the query.
+We logged in with the username rhonda.daniels,here we can the grades for all students but we can't find natasha drew the student that wants to attend the hacker camp but she doesn't have the grades to attend.
+In the elements we can see that there is multiple script running .The first one is var staff, this one let us know that rhonda is the admin and we have the URL: assets/js/app.min.js. In this page we can see clearly the script that is running.
+The script consists of 2 function, the first one setup links check if we are using admin account and in it, and we have the new URL that will be appended to the old one if we want to modify the students grades:'/update-' + objectName + '/' + this.dataset.id. The second function show us the available grades that we can use. From the first function we have the link but its not complete, objectname is student and this.dataset.id we can get it from the elements from the dashboard page, next to each student there is a data-id a base64 fomrat and a name lets take any data.id and put it in the URL, We get the grade modification page which means we are able to change grades for any student. If we decode the base64 format we get firstname_lastname, lets encode Natasha_drew and put the format in the URL. Now we can modify natasha grades, change all grades to A and submit it and we get the FLAG!
